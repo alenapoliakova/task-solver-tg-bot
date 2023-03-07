@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  task_solver_bot:
+    container_name: task_solver_bot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - .:/src
+    depends_on:
+      - redis
+    command: python bot.py
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
