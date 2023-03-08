@@ -31,7 +31,7 @@ async def get_earned_points(msg: types.Message):
 
 
 @router.message(Text("Начать решать"))
-@router.message(Command("start_solving"))
+@router.message(Command("solve"))
 async def change_task_level(msg: types.Message, state: FSMContext):
     """Отправить уровни, в которых есть задачи."""
     await msg.answer("Выберите уровень", reply_markup=change_level.keyboard)
