@@ -15,6 +15,7 @@ task_manager.load_tasks_from_file()
 
 
 class TaskForm(StatesGroup):
+    """FSM (finish state machine) для хранения прогресса пользователя в решении задач."""
     level = State()  # example: easy / middle / hard
     task_id = State()  # integer type
 

@@ -1,11 +1,12 @@
-import pytest
 from typing import Any
 from unittest.mock import patch, MagicMock
-
 from src.task_solver.task_solver import TaskSolver, Task
 
 
-def test_load_tasks_from_file(json_task: dict[str, list[dict[str, Any]]], tasks_models: dict[str, list[Task]]) -> None:
+def test_load_tasks_from_file(
+        json_task: dict[str, list[dict[str, Any]]],
+        tasks_models: dict[str, list[Task]]) -> None:
+    """Загрузка задач в TaskSolver."""
     task_solver = TaskSolver()
 
     with patch("builtins.open", MagicMock()):

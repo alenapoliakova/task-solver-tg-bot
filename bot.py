@@ -16,26 +16,34 @@ logging.basicConfig(
 
 match config.context_storage:
     case "memory":
-        fsm_storage = MemoryStorage()
+        FSM_STORAGE = MemoryStorage()
     case "redis":
-        fsm_storage = RedisStorage(
+        FSM_STORAGE = RedisStorage(
             Redis(host=config.redis_host, port=config.redis_port)
         )
     case _:
-        fsm_storage = None
+        FSM_STORAGE = None
 
-dp = Dispatcher(storage=fsm_storage)
+dp = Dispatcher(storage=FSM_STORAGE)
 dp.include_router(start.router)
 dp.include_router(solve_tasks.router)
 
 
 @dp.startup()
-async def add_commands():
+async def add_commands() -> None:
+    """Добавление команд и их описания для пользователя при использовании бота."""
     await bot.set_my_commands(
         [
-            types.BotCommand(command="start", description="Начать общение с ботом"),
-            types.BotCommand(command="solve", description="Решать задачи"),
-            types.BotCommand(command="get_result", description="Узнать количество полученных баллов и решённых задач"),
+            types.BotCommand(
+                command="start", description="Начать общение с ботом"
+            ),
+            types.BotCommand(
+                command="solve", description="Решать задачи"
+            ),
+            types.BotCommand(
+                command="get_result",
+                description="Узнать количество баллов и решённых задач"
+            ),
         ]
     )
 
