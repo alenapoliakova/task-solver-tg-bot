@@ -6,6 +6,7 @@
 - [x] Docker containers
 - [x] Store token in environment variables
 - [ ] Docs
+    - [x] Docstrings
     - [ ] Example of using
     - [ ] FSM Diagram
     - [ ] Local & Docker deployment
@@ -13,8 +14,8 @@
     - [ ] Task Manager (unit)
     - [ ] ? Telegram handlers
 - [ ] GitHub CI / CD:
-    - [ ] CI / CD
+    - [x] CI / CD
     - [x] linter (pylint)
-    - [ ] mypy
+    - [x] mypy
     - [ ] run tests
     - [ ] push to releases
