@@ -6,13 +6,16 @@ jobs:
   mypy:
     runs-on: ubuntu-latest
     steps:
-      - name: Install requirements.txt
+      - name: Checkout code
         uses: actions/checkout@v3
-#      - uses: jpetrucciani/mypy-check@master
-#        with:
-#          python_version: '3.11'
-      - name: Run mypy
-        run: |
-          mypy . --check-untyped-defs
-#          mypy src/
-#          mypy tests/
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run MyPy checking
+        run: mypy . --check-untyped-defs

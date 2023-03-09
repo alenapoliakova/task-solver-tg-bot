@@ -9,7 +9,7 @@ jobs:
       matrix:
         python-version: [ "3.11" ]
     steps:
-      - name: Install requirements.txt
+      - name: Checkout code
         uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
