@@ -4,6 +4,7 @@ from typing import Any
 
 @dataclass
 class Task:
+    """Класс для представления задачи / номера / математической задачи."""
     id: int
     name: str
     earn: int
@@ -13,6 +14,7 @@ class Task:
 
 @dataclass
 class User:
+    """Класс для представления пользователя."""
     user_id: int
     name: str | None = None
     user_name: str | None = None

@@ -1,0 +1,8 @@
+[MASTER]
+disable=
+    C0114,  # missing-module-docstring
+    E0001,  # failed parsing in not .py files
+    R0903,  # ignore error 'to few public methods'
+    W1203,  # lazy % formatting in logging functions
+    C0103,  # Attribute "id" doesn't conform to snake_case naming style (invalid-name)
+    W0622,  # Same

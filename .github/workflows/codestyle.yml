@@ -1,0 +1,44 @@
+name: Code Analysis
+
+on: [push, pull_request]
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install mypy
+          pip install -r requirements.txt
+          pip install -r test-requirements.txt
+
+      - name: Run MyPy checking
+        run: mypy . --check-untyped-defs
+
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pylint
+          pip install -r requirements.txt
+          pip install -r test-requirements.txt
+
+      - name: Run pylint checking
+        run: pylint $(git ls-files '*.py') --rcfile=$(git ls-files '.pylintrc') --extension-pkg-whitelist=pydantic
