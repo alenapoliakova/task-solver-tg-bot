@@ -8,6 +8,11 @@ jobs:
     steps:
       - name: Install requirements.txt
         uses: actions/checkout@v3
-      - uses: jpetrucciani/mypy-check@master
-        with:
-          python_version: '3.11'
+#      - uses: jpetrucciani/mypy-check@master
+#        with:
+#          python_version: '3.11'
+      - name: Run mypy
+        run: |
+          mypy . --check-untyped-defs
+#          mypy src/
+#          mypy tests/
