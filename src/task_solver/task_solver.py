@@ -2,7 +2,8 @@ import json
 import random
 
 from .models import Task, User
-from .errors import *
+from src.task_solver.errors import (TaskNotFound, LevelNotFound, UserNotFound,
+                                    TaskAlreadySolved)
 
 
 class TaskSolver:
@@ -42,7 +43,8 @@ class TaskSolver:
     def get_levels(self) -> list[str]:
         return list(self.tasks.keys())
 
-    def save_user_solved_task(self, task: Task, user_id: int, name: str | None = None,
+    def save_user_solved_task(self, task: Task, user_id: int,
+                              name: str | None = None,
                               user_name: str | None = None) -> User:
         if not (user := self.solved_tasks.get(user_id)):
             user = User(

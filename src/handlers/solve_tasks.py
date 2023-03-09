@@ -22,10 +22,13 @@ class TaskForm(StatesGroup):
 @router.message(Command("get_result"))
 async def get_earned_points(msg: types.Message):
     """Получить заработанные баллы и количество решённых задач."""
+    if not msg.from_user:
+        return await msg.answer("Мы не смогли идентифицировать вас")
+
     try:
         user = task_manager.get_user_by_id(msg.from_user.id)
     except UserNotFound:
-        return await msg.answer(f"Вы пока что не решили ни одной задачи")
+        return await msg.answer("Вы пока что не решили ни одной задачи")
     await msg.answer(f"Количество решённых задач: {len(user.solved_ids)}\n"
                      f"Количество баллов: {user.earned_points}")
 
@@ -44,7 +47,10 @@ async def send_task(msg: types.Message, state: FSMContext):
     if (level := msg.text) in ("Назад", "/start", "/cancel"):
         return await state.clear()
     if level not in task_manager.get_levels():
-        return await msg.reply(f"Вы ввели неизвестный уровень. Выберите уровень:", reply_markup=change_level.keyboard)
+        return await msg.reply(
+            "Вы ввели неизвестный уровень. Выберите уровень:",
+            reply_markup=change_level.keyboard
+        )
     task = task_manager.generate_random_task_by_level(level)
     await state.update_data(task_id=task.id)
 
@@ -58,15 +64,24 @@ async def verify_result(msg: types.Message, state: FSMContext):
     """Проверить ответ пользователя на выбранную задачу."""
     task = task_manager.get_task_by_id(id=(await state.get_data())["task_id"])
     if msg.text != str(task.result):
-        name = f"{msg.from_user.first_name} {msg.from_user.last_name}"
-        logging.info(f"not solved: user={name} {msg.from_user.username} {task}")
-        return await msg.answer(f"Вы ответили неправильно, повторите попытку ещё раз")
+        if msg.from_user:
+            name = f"{msg.from_user.first_name} {msg.from_user.last_name}"
+            logging.info(f"not solved: {name} {msg.from_user.username} {task}")
+        return await msg.answer("Вы ответили неправильно, повторите попытку")
     await state.clear()
+
     try:
-        user = task_manager.save_user_solved_task(task=task, user_id=msg.from_user.id,
-                                                  name=f"{msg.from_user.first_name} {msg.from_user.last_name}",
-                                                  user_name=msg.from_user.username)
+        if msg.from_user:
+            user = task_manager.save_user_solved_task(
+                task=task,
+                user_id=msg.from_user.id,
+                name=f"{msg.from_user.first_name} {msg.from_user.last_name}",
+                user_name=msg.from_user.username
+            )
+            logging.info(f"solved: user={user} {task}")
+            return await msg.answer(f"Вы ответили правильно и получили "
+                                    f"{task.earn} баллов!")
     except TaskAlreadySolved:
         return await msg.answer("Баллы за задачу уже были начислены")
-    await msg.answer(f"Вы ответили правильно и заработали {task.earn} баллов!")
-    logging.info(f"solved: user={user} {task}")
+    logging.info(f"solved but unknown: {task}, {msg}")
+    return await msg.answer("Нам не удалось записать ваш ответ")
