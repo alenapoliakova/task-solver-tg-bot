@@ -22,4 +22,4 @@ jobs:
       uses: py-actions/py-dependency-install@v4
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')
+        pylint $(git ls-files '*.py') --rcfile=.pylintrc --extension-pkg-whitelist=pydantic min-similarity-lines=2
