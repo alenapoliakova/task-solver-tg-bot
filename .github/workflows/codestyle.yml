@@ -15,7 +15,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install mypy
+          pip install -r requirements.txt
 
       - name: Run MyPy checking
         run: mypy . --check-untyped-defs
@@ -32,7 +34,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install pylint
+          pip install -r requirements.txt
 
       - name: Run pylint checking
         run: pylint $(git ls-files '*.py') --rcfile=$(git ls-files '.pylintrc') --extension-pkg-whitelist=pydantic
