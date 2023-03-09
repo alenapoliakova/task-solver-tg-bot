@@ -5,7 +5,7 @@ from .models import Task, User
 from .errors import *
 
 
-class TaskManager:
+class TaskSolver:
 
     def __init__(self):
         self.tasks: dict[str, list[Task]] = {}

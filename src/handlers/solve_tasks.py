@@ -5,12 +5,12 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 
 from src.keyboards import change_level
-from src.task_manager.errors import UserNotFound, TaskAlreadySolved
-from src.task_manager.task_manager import TaskManager
+from src.task_solver.errors import UserNotFound, TaskAlreadySolved
+from src.task_solver.task_solver import TaskSolver
 
 router = Router()
 
-task_manager = TaskManager()
+task_manager = TaskSolver()
 task_manager.load_tasks_from_file()
 
 
