@@ -6,7 +6,8 @@ jobs:
   mypy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install requirements.txt
+        uses: actions/checkout@v3
       - uses: jpetrucciani/mypy-check@master
         with:
-          requirements_file: 'requirements.txt'
           python_version: '3.11'
