@@ -14,7 +14,7 @@
     - [ ] ? Telegram handlers
 - [ ] GitHub CI / CD:
     - [ ] CI / CD
-    - [ ] linter (flake8)
+    - [x] linter (pylint)
     - [ ] mypy
     - [ ] run tests
     - [ ] push to releases

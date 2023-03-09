@@ -3,7 +3,7 @@ name: Pylint
 on: [ push ]
 
 jobs:
-  build:
+  pylint-checker:
     runs-on: ubuntu-latest
     strategy:
       matrix:

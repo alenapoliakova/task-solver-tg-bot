@@ -18,7 +18,7 @@ match config.context_storage:
     case "memory":
         FSM_STORAGE = MemoryStorage()
     case "redis":
-        FSM_STORAGE = RedisStorage(
+        FSM_STORAGE = RedisStorage(  # type: ignore
             Redis(host=config.redis_host, port=config.redis_port)
         )
     case _:
