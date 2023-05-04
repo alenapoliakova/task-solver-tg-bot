@@ -11,7 +11,7 @@
     - [ ] FSM Diagram
     - [ ] Local & Docker deployment
 - [ ] Tests
-    - [ ] Task Manager (unit)
+    - [x] Task Manager (unit)
     - [ ] ? Telegram handlers
 - [ ] GitHub CI / CD:
     - [x] CI / CD

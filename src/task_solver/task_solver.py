@@ -37,29 +37,29 @@ class TaskSolver:
         Notes:
             - При вызове метода с неизвестным методом вызовется ошибка LevelNotFound.
         """
-        if level not in self.tasks:
-            raise LevelNotFound
+        if not self.tasks.get(level, []):
+            raise LevelNotFound(f"Level {level} not found")
         return random.choice(self.tasks[level])
 
     def generate_random_task(self) -> Task:
         """Генерация случайной задачи в случайном уровне."""
-        level = random.choice(list(self.tasks))
+        level = random.choice(list(self.tasks.keys()))
         return self.generate_random_task_by_level(level)
 
-    def get_task_by_id(self, id: int) -> Task:
+    def get_task_by_id(self, task_id: int) -> Task:
         """
         Получение задачи по её уникальному идентификатору, заданному при считывании файла.
         Parameters:
-            id: ID задачи.
+            task_id: ID задачи.
         Returns: Задача с переданным ID.
         Notes:
             - При отсутствии задачи с заданным ID вызовется ошибка TaskNotFound.
         """
         for tasks in self.tasks.values():
             for task in tasks:
-                if task.id == id:
+                if task.id == task_id:
                     return task
-        raise TaskNotFound(f"Task with id = {id} not found")
+        raise TaskNotFound(f"Task with id = {task_id} not found")
 
     def get_levels(self) -> list[str]:
         """Получение названий всех доступных уровней, в которых есть задачи для решения."""
@@ -86,7 +86,7 @@ class TaskSolver:
             )
             self.solved_tasks[user_id] = user
         if task.id in user.solved_ids:
-            raise TaskAlreadySolved()
+            raise TaskAlreadySolved(f"Task with id = {task.id} already solved")
         user.solved_ids.append(task.id)
         user.earned_points += task.earn
         return user
@@ -102,5 +102,5 @@ class TaskSolver:
              - Если пользователь не был найден, вызовется ошибка UserNotFound.
         """
         if not (user := self.solved_tasks.get(user_id)):
-            raise UserNotFound
+            raise UserNotFound(f"User with id = {user_id} not found")
         return user

@@ -66,7 +66,7 @@ async def send_task(msg: types.Message, state: FSMContext):
 @router.message(TaskForm.task_id)
 async def verify_result(msg: types.Message, state: FSMContext):
     """Проверить ответ пользователя на выбранную задачу."""
-    task = task_manager.get_task_by_id(id=(await state.get_data())["task_id"])
+    task = task_manager.get_task_by_id(task_id=(await state.get_data())["task_id"])
     if msg.text != str(task.result):
         if msg.from_user:
             name = f"{msg.from_user.first_name} {msg.from_user.last_name}"
