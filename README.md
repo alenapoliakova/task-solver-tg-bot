@@ -17,5 +17,5 @@
     - [x] CI / CD
     - [x] linter (pylint)
     - [x] mypy
-    - [ ] run tests
+    - [x] run tests
     - [ ] push to releases
