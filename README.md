@@ -5,11 +5,12 @@
 - [x] Pretty logging
 - [x] Docker containers
 - [x] Store token in environment variables
-- [ ] Docs
+- [ ] Docs (Wiki)
     - [x] Docstrings
     - [ ] Example of using
-    - [ ] FSM Diagram
+    - [x] FSM Diagram (request scheme, wiki)
     - [ ] Local & Docker deployment
+    - [ ] Main README.md
 - [ ] Tests
     - [x] Task Manager (unit)
     - [ ] ? Telegram handlers
@@ -18,4 +19,4 @@
     - [x] linter (pylint)
     - [x] mypy
     - [x] run tests
-    - [ ] push to releases
+    - [ ] ? push to releases
