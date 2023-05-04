@@ -11,11 +11,11 @@
     - [ ] FSM Diagram
     - [ ] Local & Docker deployment
 - [ ] Tests
-    - [ ] Task Manager (unit)
+    - [x] Task Manager (unit)
     - [ ] ? Telegram handlers
 - [ ] GitHub CI / CD:
     - [x] CI / CD
     - [x] linter (pylint)
     - [x] mypy
-    - [ ] run tests
+    - [x] run tests
     - [ ] push to releases

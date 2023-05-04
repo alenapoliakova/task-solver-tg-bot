@@ -32,6 +32,7 @@ async def get_earned_points(msg: types.Message):
         return await msg.answer("Вы пока что не решили ни одной задачи")
     await msg.answer(f"Количество решённых задач: {len(user.solved_ids)}\n"
                      f"Количество баллов: {user.earned_points}")
+    logging.info(f"get_result: {msg.from_user}={len(user.solved_ids)}, {user.earned_points}")
 
 
 @router.message(Text("Начать решать"))
@@ -40,6 +41,7 @@ async def change_task_level(msg: types.Message, state: FSMContext):
     """Отправить уровни, в которых есть задачи."""
     await msg.answer("Выберите уровень", reply_markup=change_level.keyboard)
     await state.set_state(TaskForm.level)
+    logging.info(f"start solve: {msg.from_user}")
 
 
 @router.message(TaskForm.level)
@@ -58,12 +60,13 @@ async def send_task(msg: types.Message, state: FSMContext):
     data = f'Задача "{task.name}"\nУровень: {level}\n\n{task.description}'
     await msg.reply(data)
     await state.set_state(TaskForm.task_id)
+    logging.info(f"send task: {msg.from_user}, task={task}")
 
 
 @router.message(TaskForm.task_id)
 async def verify_result(msg: types.Message, state: FSMContext):
     """Проверить ответ пользователя на выбранную задачу."""
-    task = task_manager.get_task_by_id(id=(await state.get_data())["task_id"])
+    task = task_manager.get_task_by_id(task_id=(await state.get_data())["task_id"])
     if msg.text != str(task.result):
         if msg.from_user:
             name = f"{msg.from_user.first_name} {msg.from_user.last_name}"
@@ -81,7 +84,7 @@ async def verify_result(msg: types.Message, state: FSMContext):
             )
             logging.info(f"solved: user={user} {task}")
             return await msg.answer(f"Вы ответили правильно и получили "
-                                    f"{task.earn} баллов!")
+                                    f"{task.earn} балл(-а)!")
     except TaskAlreadySolved:
         return await msg.answer("Баллы за задачу уже были начислены")
     logging.info(f"solved but unknown: {task}, {msg}")
