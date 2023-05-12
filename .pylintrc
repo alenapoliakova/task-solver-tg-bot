@@ -6,3 +6,4 @@ disable=
     W1203,  # lazy % formatting in logging functions
     C0103,  # Attribute "id" doesn't conform to snake_case naming style (invalid-name)
     W0622,  # Same
+    C0415,  # Import outside toplevel (for tests)
